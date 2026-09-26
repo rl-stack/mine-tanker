@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Mine tanker er ikke deres tanker</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mine tanker er ikke deres tanker">
+<meta property="og:description" content="Jesaja 55,8–9">
+<meta property="og:image" content="https://mine-tanker.netlify.app/foto.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blekk: #595959;
+    --blekk-svak: #918e89;
+    --gull: #a9812f;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: #fff;
+    color: var(--blekk);
+    font-family: "Caveat", "Bradley Hand", "Segoe Print", cursive;
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .ark {
+    max-width: 62rem;
+    margin: 0 auto;
+    padding: clamp(1.25rem, 4vw, 3.5rem) clamp(1.25rem, 5vw, 4rem) 4rem;
+  }
+
+  .scene {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    overflow: hidden;
+    background: #efece7;
+  }
+
+  .scene iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .spill {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .spill img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .knapp {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: clamp(4rem, 9vw, 5.75rem);
+    height: clamp(4rem, 9vw, 5.75rem);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow: 0 0.5rem 2rem rgba(60, 50, 30, 0.28);
+    display: grid;
+    place-items: center;
+    transition: background 180ms ease, transform 180ms ease;
+  }
+
+  .knapp svg {
+    width: 38%;
+    height: 38%;
+    margin-left: 8%;
+    fill: var(--gull);
+  }
+
+  .spill:hover .knapp { background: #fff; transform: translate(-50%, -50%) scale(1.06); }
+  .spill:focus-visible { outline: 3px solid var(--gull); outline-offset: 4px; }
+
+  .hint {
+    margin: 0.9rem 0 0;
+    font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.3rem);
+    color: var(--blekk-svak);
+  }
+
+  .sanger {
+    margin-top: 1rem;
+    display: grid;
+    gap: 0.8rem clamp(2.5rem, 6vw, 5rem);
+  }
+
+  @media (min-width: 46rem) {
+    .sanger { grid-template-columns: 1fr 1fr; }
+  }
+
+  .sang {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.15rem 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: var(--blekk);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .sang svg {
+    flex: none;
+    width: 0.85rem;
+    height: 1rem;
+    margin-top: 0.55rem;
+    fill: var(--gull);
+  }
+
+  .tittel {
+    display: block;
+    font-size: clamp(1.3rem, 1.1rem + 0.6vw, 1.7rem);
+    line-height: 1.3;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 0.22em;
+    transition: text-decoration-color 180ms ease;
+  }
+
+  .artist {
+    display: block;
+    font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.3rem);
+    color: var(--blekk-svak);
+  }
+
+  .sang:hover .tittel,
+  .sang[aria-pressed="true"] .tittel { text-decoration-color: rgba(169, 129, 47, 0.6); }
+  .sang:focus-visible { outline: 3px solid var(--gull); outline-offset: 4px; }
+
+  .vers {
+    margin-top: clamp(2.5rem, 6vw, 4.5rem);
+    display: grid;
+    gap: clamp(1.6rem, 3vw, 2.4rem) clamp(2.5rem, 6vw, 5rem);
+    font-size: clamp(1.45rem, 1.2rem + 0.85vw, 2.05rem);
+    line-height: 1.5;
+  }
+
+  @media (min-width: 46rem) {
+    .vers { grid-template-columns: 1fr 1fr; }
+  }
+
+  .vers p { margin: 0; }
+
+  .henvisning,
+  .kilde {
+    font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.3rem);
+    color: var(--blekk-svak);
+    line-height: 1.7;
+  }
+
+  .henvisning { margin: clamp(1.2rem, 3vw, 1.8rem) 0 0; }
+  .kilde { margin: clamp(2.5rem, 6vw, 4rem) 0 0; }
+
+  .kilde a { color: var(--blekk-svak); text-decoration-color: rgba(169, 129, 47, 0.5); }
+  .kilde a:hover { color: var(--gull); }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+  <main class="ark">
+    <div class="scene" id="scene">
+      <button class="spill" id="spill" type="button" aria-label="Spill av We Need A Miracle">
+        <img src="foto.jpg" alt="En mann i silhuett på en fjellrygg over et tåkehav, under en mørk stjernehimmel">
+        <span class="knapp" aria-hidden="true">
+          <svg viewBox="0 0 24 28"><path d="M2 1 L22 14 L2 27 Z"></path></svg>
+        </span>
+      </button>
+    </div>
+    <p class="hint" id="hint">Trykk på bildet for å spille av, eller velg en av sangene.</p>
+
+    <div class="sanger">
+      <button class="sang" type="button" aria-pressed="false">
+        <svg viewBox="0 0 24 28" aria-hidden="true"><path d="M2 1 L22 14 L2 27 Z"></path></svg>
+        <span><span class="tittel">We Need A Miracle</span><span class="artist">Charity Gayle</span></span>
+      </button>
+      <button class="sang" type="button" aria-pressed="false">
+        <svg viewBox="0 0 24 28" aria-hidden="true"><path d="M2 1 L22 14 L2 27 Z"></path></svg>
+        <span><span class="tittel">Miraklernas Gud</span><span class="artist">Hope for this nation med Sanna Välipakka</span></span>
+      </button>
+    </div>
+
+    <div class="vers">
+      <p>For Mine tanker er ikke deres tanker, og deres veier er ikke Mine veier, sier Herren.</p>
+      <p>For som himmelen er høyere enn jorden, slik er Mine veier høyere enn deres veier, og Mine tanker høyere enn deres tanker.</p>
+    </div>
+    <p class="henvisning">Jesaja 55,8–9, Bibelen Guds Ord</p>
+
+    <p class="kilde">
+      Sangene på YouTube:
+      <a href="https://www.youtube.com/watch?v=ZuhtZ5PMOyg" target="_blank" rel="noopener">We Need A Miracle</a> og
+      <a href="https://www.youtube.com/watch?v=lQuZo2_EXIk" target="_blank" rel="noopener">Miraklernas Gud</a>
+    </p>
+  </main>
+
+<script>
+  (function () {
+    var sanger = [
+      { id: 'ZuhtZ5PMOyg', tittel: 'We Need A Miracle' },
+      { id: 'lQuZo2_EXIk', tittel: 'Miraklernas Gud' }
+    ];
+    var scene = document.getElementById('scene');
+    var bilde = document.getElementById('spill');
+    var hint = document.getElementById('hint');
+    var valg = document.querySelectorAll('.sang');
+    var lokal = location.protocol === 'file:';
+
+    if (lokal) {
+      hint.textContent = 'Trykk på bildet for å åpne videoen på YouTube, eller velg en av sangene.';
+    }
+
+    function spill(n) {
+      var sang = sanger[n];
+      if (lokal) {
+        window.open('https://www.youtube.com/watch?v=' + sang.id, '_blank', 'noopener');
+        return;
+      }
+      var ramme = scene.querySelector('iframe');
+      if (!ramme) {
+        ramme = document.createElement('iframe');
+        ramme.referrerPolicy = 'strict-origin-when-cross-origin';
+        ramme.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        ramme.allowFullscreen = true;
+        scene.innerHTML = '';
+        scene.appendChild(ramme);
+      }
+      ramme.title = sang.tittel;
+      ramme.src = 'https://www.youtube-nocookie.com/embed/' + sang.id + '?autoplay=1&rel=0';
+      for (var i = 0; i < valg.length; i++) {
+        valg[i].setAttribute('aria-pressed', i === n ? 'true' : 'false');
+      }
+      if (hint) { hint.remove(); hint = null; }
+    }
+
+    bilde.addEventListener('click', function () { spill(0); });
+    for (var i = 0; i < valg.length; i++) {
+      (function (n) {
+        valg[n].addEventListener('click', function () { spill(n); });
+      })(i);
+    }
+  })();
+</script>
+</body>
+</html>
